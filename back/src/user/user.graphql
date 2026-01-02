@@ -1,0 +1,26 @@
+type Query {
+  user(id: ID!): User
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput): User
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+}
+
+type User {
+  id: Int!
+  name: String!
+  displayName: String! 
+  role: Role!
+}
+
+input CreateUserInput {
+  name: String!
+  displayName: String
+  password: String!
+  role: Role!
+}
