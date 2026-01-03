@@ -1,5 +1,4 @@
 import logo from './assets/logo-edify-Preto.svg';
-import { Link } from 'react-router';
 
 function Login() {
   return (
@@ -21,7 +20,7 @@ function Login() {
                   name="username"
                   type="text"
                   autoComplete="username"
-                  className="h-12 w-full rounded-md border border-stone-300 px-3 outline-none ring-0 focus:border-stone-400 hover:border-stone-400 transition-colors"
+                  className="h-10 w-full rounded-md border border-stone-300 px-3 outline-none ring-0 focus:border-stone-400 hover:border-stone-400 transition-colors"
                 />
               </div>
 
@@ -34,29 +33,17 @@ function Login() {
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                  className="h-12 w-full rounded-md border border-stone-300 px-3 outline-none ring-0 focus:border-stone-400 hover:border-stone-400 transition-colors"
+                  className="h-10 w-full rounded-md border border-stone-300 px-3 outline-none ring-0 focus:border-stone-400 hover:border-stone-400 transition-colors"
                 />
               </div>
 
               <button
                 type="submit"
-                className="mt-2 h-12 w-full rounded-md bg-primary-blue font-semibold text-white hover:bg-primary-blue/90 transition-colors cursor-pointer"
+                className="mt-2 h-10 w-full rounded-md bg-primary-blue font-semibold text-white hover:bg-primary-blue/90 transition-colors cursor-pointer"
               >
                 Sign in
               </button>
             </form>
-            <button
-              type="button"
-              className="hover:text-stone-600 cursor-pointer mt-5 text-sm transition-colors"
-            >
-              Forgot my password
-            </button>
-            <Link
-              to="/register"
-              className="hover:text-stone-600 cursor-pointer mt-2 text-sm transition-colors"
-            >
-              Create account
-            </Link>
           </div>
         </div>
       </div>

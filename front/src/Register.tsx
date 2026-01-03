@@ -4,6 +4,7 @@ import logo from './assets/logo-edify-Preto.svg';
 import { Link } from 'react-router';
 import { gql } from '@apollo/client';
 import { useMutation } from '@apollo/client/react';
+import { toast } from 'sonner';
 
 const CREATE_USER = gql`
   mutation CreateUser($input: CreateUserInput!) {
@@ -15,6 +16,24 @@ const CREATE_USER = gql`
     }
   }
 `;
+
+type CreateUserResult = {
+  createUser: {
+    id: string;
+    displayName?: string | null;
+    role: 'STUDENT' | 'TEACHER';
+    name: string;
+  } | null;
+};
+
+type CreateUserVars = {
+  input: {
+    name: string;
+    displayName?: string | null;
+    password: string;
+    role: 'STUDENT' | 'TEACHER';
+  };
+};
 
 const NAME_LENGTH_ERROR = 'Name must be 1 to 128 characters long';
 const NAME_ALPHANUMERIC_ERROR = 'Name must contain only letters or numbers';
@@ -69,7 +88,9 @@ const registerSchema = z
 type RegisterValues = z.infer<typeof registerSchema>;
 
 function Register() {
-  const [mutate, { loading, error }] = useMutation(CREATE_USER);
+  const [mutate, { loading }] = useMutation<CreateUserResult, CreateUserVars>(
+    CREATE_USER,
+  );
 
   const [values, setValues] = useState<RegisterValues>({
     username: '',
@@ -104,16 +125,29 @@ function Register() {
       return;
     }
     setErrors({});
-    await mutate({
-      variables: {
-        input: {
-          name: result.data.username,
-          displayName: result.data.displayName,
-          password: result.data.password,
-          role: result.data.role,
+    try {
+      const response = await mutate({
+        variables: {
+          input: {
+            name: result.data.username,
+            displayName: result.data.displayName,
+            password: result.data.password,
+            role: result.data.role,
+          },
         },
-      },
-    });
+      });
+
+      if (!response.data?.createUser) {
+        toast.error('Failed to create account.');
+        return;
+      }
+
+      toast.success('User created successfully');
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : 'Failed to create account.';
+      toast.error(message);
+    }
   };
   return (
     <main className="w-screen h-screen flex flex-col items-center pt-10">
@@ -146,7 +180,6 @@ function Register() {
                   name="username"
                   type="text"
                   autoComplete="username"
-                  required
                   value={values.username}
                   onChange={handleChange}
                   className="h-10 w-full rounded-md border border-stone-300 px-3 outline-none ring-0 focus:border-stone-400 hover:border-stone-400 transition-colors"
@@ -187,7 +220,6 @@ function Register() {
                   name="password"
                   type="password"
                   autoComplete="new-password"
-                  required
                   value={values.password}
                   onChange={handleChange}
                   className="h-10 w-full rounded-md border border-stone-300 px-3 outline-none ring-0 focus:border-stone-400 hover:border-stone-400 transition-colors"
@@ -208,7 +240,6 @@ function Register() {
                   name="confirmPassword"
                   type="password"
                   autoComplete="new-password"
-                  required
                   value={values.confirmPassword}
                   onChange={handleChange}
                   className="h-10 w-full rounded-md border border-stone-300 px-3 outline-none ring-0 focus:border-stone-400 hover:border-stone-400 transition-colors"
@@ -227,7 +258,6 @@ function Register() {
                 <select
                   id="role"
                   name="role"
-                  required
                   value={values.role}
                   onChange={handleChange}
                   className="h-10 w-full rounded-md border border-stone-300 bg-white px-3 outline-none ring-0 focus:border-stone-400 hover:border-stone-400 transition-colors"
@@ -242,15 +272,18 @@ function Register() {
 
               <button
                 type="submit"
-                className="mt-2 h-10 w-full rounded-md bg-primary-blue font-semibold text-white hover:bg-primary-blue/90 transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-70"
+                className="mt-2 h-10 w-full rounded-md bg-primary-blue font-semibold text-white transition-colors duration-300 enabled:hover:bg-primary-blue/90 cursor-pointer disabled:cursor-not-allowed disabled:bg-primary-blue/70 flex items-center justify-center gap-2"
                 disabled={loading}
               >
-                {loading ? 'Creating...' : 'Create account'}
+                {loading ? (
+                  <span
+                    className="h-4 w-4 animate-spin rounded-full border-2 border-white/60 border-t-white"
+                    aria-hidden="true"
+                  />
+                ) : null}
+                <span>Create account</span>
               </button>
             </form>
-            {error ? (
-              <p className="mt-3 text-sm text-rose-600">{error.message}</p>
-            ) : null}
           </div>
         </div>
       </div>

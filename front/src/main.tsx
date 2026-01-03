@@ -6,6 +6,7 @@ import Register from './Register.tsx';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import { ApolloProvider } from '@apollo/client/react';
+import { Toaster } from '@/components/ui/sonner';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Login />} />
         </Routes>
+        <Toaster />
       </BrowserRouter>
     </ApolloProvider>
   </StrictMode>,
