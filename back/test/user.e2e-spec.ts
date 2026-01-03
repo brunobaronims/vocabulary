@@ -1,7 +1,6 @@
 import { existsSync } from 'fs';
 import { resolve } from 'path';
 import { config } from 'dotenv';
-import { faker } from '@faker-js/faker';
 
 const envPath = resolve(process.cwd(), '.env');
 if (existsSync(envPath)) {
@@ -14,6 +13,7 @@ import request from 'supertest';
 import { DataSource } from 'typeorm';
 import { AppModule } from '../src/app.module';
 import { User } from '../src/user/user.entity';
+import { faker } from '@faker-js/faker';
 
 describe('User', () => {
   let app: INestApplication;
