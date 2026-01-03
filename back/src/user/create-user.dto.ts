@@ -7,7 +7,7 @@ import {
   Length,
   MaxLength,
 } from 'class-validator';
-import { CreateUserInput, Role } from 'src/graphql';
+import { CreateUserInput, Role } from '../graphql';
 
 const PASSWORD_LENGTH_ERROR = 'Password must be 6 to 128 characters long';
 const PASSWORD_COMPLEXITY_ERROR =
