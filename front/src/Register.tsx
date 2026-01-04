@@ -17,22 +17,24 @@ const CREATE_USER = gql`
   }
 `;
 
+type UserRole = 'STUDENT' | 'TEACHER' | 'ADMIN';
+
 type CreateUserResult = {
-    createUser: {
-        id: string;
-        displayName?: string | null;
-        role: 'STUDENT' | 'TEACHER' | 'ADMIN';
-        name: string;
-    } | null;
+  createUser: {
+    id: string;
+    displayName?: string | null;
+    role: UserRole;
+    name: string;
+  } | null;
 };
 
 type CreateUserVars = {
-    input: {
-        name: string;
-        displayName?: string | null;
-        password: string;
-        role: 'STUDENT' | 'TEACHER' | 'ADMIN';
-    };
+  input: {
+    name: string;
+    displayName?: string | null;
+    password: string;
+    role: UserRole;
+  };
 };
 
 const NAME_LENGTH_ERROR = 'Name must be 1 to 128 characters long';
@@ -93,9 +95,9 @@ type RegisterValues = z.infer<typeof registerSchema>;
 
 function Register() {
     const role = getRoleFromToken(localStorage.getItem('accessToken'));
-    const allowedRoles =
-        role === 'ADMIN' ? ['STUDENT', 'TEACHER', 'ADMIN'] : ['STUDENT'];
-    const defaultRole = allowedRoles[0];
+  const allowedRoles: UserRole[] =
+    role === 'ADMIN' ? ['STUDENT', 'TEACHER', 'ADMIN'] : ['STUDENT'];
+  const defaultRole: UserRole = allowedRoles[0];
     const [mutate, { loading }] = useMutation<CreateUserResult, CreateUserVars>(
         CREATE_USER,
     );
@@ -133,9 +135,9 @@ function Register() {
             return;
         }
         setErrors({});
-        const nextRole = allowedRoles.includes(result.data.role)
-            ? result.data.role
-            : defaultRole;
+    const nextRole: UserRole = allowedRoles.includes(result.data.role)
+      ? result.data.role
+      : defaultRole;
         try {
             const response = await mutate({
                 variables: {
