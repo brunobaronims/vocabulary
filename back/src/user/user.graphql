@@ -6,6 +6,7 @@ type Mutation {
   createUser(createUserInput: CreateUserInput): User
   login(loginInput: LoginInput): AuthPayload
   refreshToken: AuthPayload
+  logout: Boolean!
 }
 
 enum Role {

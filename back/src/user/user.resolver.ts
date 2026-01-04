@@ -58,4 +58,15 @@ export class UserResolver {
     });
     return { accessToken };
   }
+
+  @Mutation()
+  async logout(@Context() ctx: any) {
+    ctx.res.clearCookie('refreshToken', {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      path: '/',
+    });
+    return true;
+  }
 }

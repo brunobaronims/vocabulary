@@ -45,8 +45,12 @@ export class AuthService {
   }
 
   private async issueTokens(userId: number): Promise<AuthPayload> {
+    const user = await this.userService.findOne(userId);
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials.');
+    }
     const accessToken = await this.jwtService.signAsync(
-      { sub: userId },
+      { sub: userId, role: user.role },
       {
         secret: this.accessSecret,
         expiresIn: this.accessTtlSeconds,

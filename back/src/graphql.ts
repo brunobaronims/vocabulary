@@ -36,6 +36,8 @@ export abstract class IMutation {
     abstract login(loginInput?: Nullable<LoginInput>): Nullable<AuthPayload> | Promise<Nullable<AuthPayload>>;
 
     abstract refreshToken(): Nullable<AuthPayload> | Promise<Nullable<AuthPayload>>;
+
+    abstract logout(): boolean | Promise<boolean>;
 }
 
 export class User {

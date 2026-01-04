@@ -10,6 +10,7 @@ import { Toaster } from '@/components/ui/sonner';
 import Login from './Login.tsx';
 import Register from './Register.tsx';
 import Home from './Home.tsx';
+import AuthLayout from './layouts/AuthLayout.tsx';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -24,8 +25,10 @@ createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Home />} />
+          <Route element={<AuthLayout />}>
+            <Route index element={<Home />} />
+            <Route path="register" element={<Register />} />
+          </Route>
         </Routes>
         <Toaster />
       </BrowserRouter>
