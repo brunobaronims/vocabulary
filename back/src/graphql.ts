@@ -10,7 +10,8 @@
 
 export enum Role {
     STUDENT = "STUDENT",
-    TEACHER = "TEACHER"
+    TEACHER = "TEACHER",
+    ADMIN = "ADMIN"
 }
 
 export class CreateUserInput {
@@ -20,12 +21,21 @@ export class CreateUserInput {
     role: Role;
 }
 
+export class LoginInput {
+    name: string;
+    password: string;
+}
+
 export abstract class IQuery {
     abstract user(id: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export abstract class IMutation {
     abstract createUser(createUserInput?: Nullable<CreateUserInput>): Nullable<User> | Promise<Nullable<User>>;
+
+    abstract login(loginInput?: Nullable<LoginInput>): Nullable<AuthPayload> | Promise<Nullable<AuthPayload>>;
+
+    abstract refreshToken(): Nullable<AuthPayload> | Promise<Nullable<AuthPayload>>;
 }
 
 export class User {
@@ -33,6 +43,10 @@ export class User {
     name: string;
     displayName: string;
     role: Role;
+}
+
+export class AuthPayload {
+    accessToken: string;
 }
 
 type Nullable<T> = T | null;

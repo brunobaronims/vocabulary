@@ -1,17 +1,20 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import Login from './Login.tsx';
-import Register from './Register.tsx';
+
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
 import { ApolloProvider } from '@apollo/client/react';
 import { Toaster } from '@/components/ui/sonner';
 
+import Login from './Login.tsx';
+import Register from './Register.tsx';
+import Home from './Home.tsx';
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const client = new ApolloClient({
-  link: new HttpLink({ uri: `${apiUrl}/graphql` }),
+  link: new HttpLink({ uri: `${apiUrl}/graphql`, credentials: 'include' }),
   cache: new InMemoryCache(),
 });
 
@@ -22,7 +25,7 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Home />} />
         </Routes>
         <Toaster />
       </BrowserRouter>

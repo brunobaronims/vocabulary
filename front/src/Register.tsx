@@ -21,7 +21,7 @@ type CreateUserResult = {
   createUser: {
     id: string;
     displayName?: string | null;
-    role: 'STUDENT' | 'TEACHER';
+    role: 'STUDENT' | 'TEACHER' | 'ADMIN';
     name: string;
   } | null;
 };
@@ -31,7 +31,7 @@ type CreateUserVars = {
     name: string;
     displayName?: string | null;
     password: string;
-    role: 'STUDENT' | 'TEACHER';
+    role: 'STUDENT' | 'TEACHER' | 'ADMIN';
   };
 };
 
@@ -39,7 +39,7 @@ const NAME_LENGTH_ERROR = 'Name must be 1 to 128 characters long';
 const NAME_ALPHANUMERIC_ERROR = 'Name must contain only letters or numbers';
 const NAME_REQUIRED_ERROR = 'Name is required';
 const ROLE_REQUIRED_ERROR = 'User role is required';
-const ROLE_ENUM_ERROR = 'User role must be Student or Teacher';
+const ROLE_ENUM_ERROR = 'User role must be Student, Teacher, or Admin';
 const PASSWORD_LENGTH_ERROR = 'Password must be 6 to 128 characters long';
 const PASSWORD_COMPLEXITY_ERROR =
   'Password must include at least one lowercase letter, one uppercase letter, one number, and one special character';
@@ -61,9 +61,13 @@ const registerSchema = z
     role: z
       .string()
       .min(1, ROLE_REQUIRED_ERROR)
-      .refine((value) => value === 'STUDENT' || value === 'TEACHER', {
+      .refine(
+        (value) =>
+          value === 'STUDENT' || value === 'TEACHER' || value === 'ADMIN',
+        {
         message: ROLE_ENUM_ERROR,
-      }),
+        },
+      ),
     password: z
       .string()
       .min(1, PASSWORD_REQUIRED_ERROR)
@@ -264,6 +268,7 @@ function Register() {
                 >
                   <option value="STUDENT">Student</option>
                   <option value="TEACHER">Teacher</option>
+                  <option value="ADMIN">Admin</option>
                 </select>
                 {errors.role ? (
                   <span className="text-xs text-rose-600">{errors.role}</span>

@@ -20,5 +20,6 @@ export const AppDataSource = new DataSource({
   database: process.env.POSTGRES_DB,
   entities: [join(srcDir, '**', '*.entity.{ts,js}')],
   migrations: [join(srcDir, 'migrations/*{.ts,.js}')],
+  migrationsTransactionMode: 'each',
   synchronize: false,
 });

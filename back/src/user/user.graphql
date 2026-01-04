@@ -4,11 +4,14 @@ type Query {
 
 type Mutation {
   createUser(createUserInput: CreateUserInput): User
+  login(loginInput: LoginInput): AuthPayload
+  refreshToken: AuthPayload
 }
 
 enum Role {
   STUDENT
   TEACHER
+  ADMIN
 }
 
 type User {
@@ -18,9 +21,18 @@ type User {
   role: Role!
 }
 
+type AuthPayload {
+  accessToken: String!
+}
+
 input CreateUserInput {
   name: String!
   displayName: String
   password: String!
   role: Role!
+}
+
+input LoginInput {
+  name: String!
+  password: String!
 }

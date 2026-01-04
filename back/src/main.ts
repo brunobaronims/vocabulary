@@ -1,6 +1,7 @@
 import { loadEnvFile } from 'process';
 import { existsSync } from 'fs';
 import { resolve } from 'path';
+import cookieParser from 'cookie-parser';
 
 const envPath = resolve(process.cwd(), '.env');
 if (existsSync(envPath)) {
@@ -19,6 +20,7 @@ async function bootstrap() {
       credentials: true,
     });
   }
+  app.use(cookieParser());
   await app.listen(process.env.API_PORT ?? 3000);
 }
 bootstrap();

@@ -16,10 +16,12 @@ import { join } from 'path';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
       autoLoadEntities: true,
+      migrationsTransactionMode: 'each',
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
+      context: ({ req, res }) => ({ req, res }),
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
         outputAs: 'class',
