@@ -22,3 +22,4 @@ Antes de rodar qualquer serviço, renomeie cada `.env.example` para `.env`. Os `
 
 
 - Para acessar no navegador, navegue para http://localhost:{FRONTEND_PORT}, de acordo com a porta definida no .env.
+- O usuário padrão é `admin`, com senha `admin`.
