@@ -17,6 +17,7 @@ const CREATE_USER = gql`
   }
 `;
 
+
 type UserRole = 'STUDENT' | 'TEACHER' | 'ADMIN';
 
 type CreateUserResult = {

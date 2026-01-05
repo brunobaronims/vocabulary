@@ -49,6 +49,34 @@ export class SessionResolver {
     return this.sessionService.getSessionScore(sessionId);
   }
 
+  @Query('studentProgress')
+  async studentProgress(@Args('userId') userId: number) {
+    const latestSessions =
+      await this.sessionService.findLatestSessionsByDifficulty(userId);
+    const difficultyScores = await Promise.all(
+      Array.from(latestSessions.values()).map(async (session) => ({
+        difficulty: session.difficulty,
+        score: await this.sessionService.getSessionScore(session.id),
+      })),
+    );
+    const topCorrectWords = await this.sessionService.getTopWordStats(
+      userId,
+      true,
+      3,
+    );
+    const topIncorrectWords = await this.sessionService.getTopWordStats(
+      userId,
+      false,
+      3,
+    );
+
+    return {
+      difficultyScores,
+      topCorrectWords,
+      topIncorrectWords,
+    };
+  }
+
   @Mutation('createSession')
   async createSession(
     @Args('input')

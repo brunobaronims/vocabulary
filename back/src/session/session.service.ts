@@ -45,6 +45,22 @@ export class SessionService {
     });
   }
 
+  async findLatestSessionsByDifficulty(
+    userId: number,
+  ): Promise<Map<SessionDifficulty, Session>> {
+    const sessions = await this.sessionRepository.find({
+      where: { userId },
+      order: { createdAt: 'DESC' },
+    });
+    const latest = new Map<SessionDifficulty, Session>();
+    for (const session of sessions) {
+      if (!latest.has(session.difficulty)) {
+        latest.set(session.difficulty, session);
+      }
+    }
+    return latest;
+  }
+
   getWordsByDifficulty(difficulty: SessionDifficulty): SessionWord[] {
     return SESSION_WORDS.filter((word) => word.difficulty === difficulty);
   }
@@ -70,6 +86,29 @@ export class SessionService {
       where: { sessionId, correct: true },
     });
     return Math.floor((correctCount / totalWords) * 100);
+  }
+
+  async getTopWordStats(
+    userId: number,
+    correct: boolean,
+    limit = 3,
+  ): Promise<{ term: string; count: number }[]> {
+    const rows = await this.sessionWordRepository
+      .createQueryBuilder('sw')
+      .innerJoin('session', 's', 's.id = sw.session_id')
+      .select('sw.word', 'term')
+      .addSelect('COUNT(*)', 'count')
+      .where('s.user_id = :userId', { userId })
+      .andWhere('sw.correct = :correct', { correct })
+      .groupBy('sw.word')
+      .orderBy('count', 'DESC')
+      .limit(limit)
+      .getRawMany<{ term: string; count: string }>();
+
+    return rows.map((row) => ({
+      term: row.term,
+      count: Number(row.count),
+    }));
   }
 
   async recordAnswer(

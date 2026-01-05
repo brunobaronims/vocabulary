@@ -80,7 +80,6 @@ function StudentHomeContent() {
   }
   const { data } = useSuspenseQuery<ActiveSessionResult>(ACTIVE_SESSION, {
     variables: { userId },
-    fetchPolicy: 'network-only',
   });
 
   if (data.activeSession) {
@@ -146,6 +145,13 @@ function SessionForm() {
             difficulty: values.difficulty,
           },
         },
+        refetchQueries: [
+          {
+            query: ACTIVE_SESSION,
+            variables: { userId },
+          },
+        ],
+        awaitRefetchQueries: true,
       });
       navigate('/session');
     } catch (err) {

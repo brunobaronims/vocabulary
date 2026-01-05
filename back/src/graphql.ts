@@ -48,7 +48,11 @@ export abstract class IQuery {
 
     abstract sessionScore(sessionId: number): number | Promise<number>;
 
+    abstract studentProgress(userId: number): StudentProgress | Promise<StudentProgress>;
+
     abstract user(id: string): Nullable<User> | Promise<Nullable<User>>;
+
+    abstract students(): User[] | Promise<User[]>;
 }
 
 export abstract class IMutation {
@@ -90,6 +94,22 @@ export class Word {
     definition: string;
     example: string;
     difficulty: Difficulty;
+}
+
+export class DifficultyScore {
+    difficulty: Difficulty;
+    score: number;
+}
+
+export class WordStat {
+    term: string;
+    count: number;
+}
+
+export class StudentProgress {
+    difficultyScores: DifficultyScore[];
+    topCorrectWords: WordStat[];
+    topIncorrectWords: WordStat[];
 }
 
 export class GuessResult {

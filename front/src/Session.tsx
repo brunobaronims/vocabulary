@@ -91,7 +91,6 @@ function SessionContent() {
     ACTIVE_SESSION,
     {
       variables: { userId },
-      fetchPolicy: 'network-only',
     },
   );
 
@@ -149,24 +148,31 @@ function SessionContent() {
 
   const handleEndSession = async () => {
     try {
-      await endSession({ variables: { sessionId: activeSession?.id } });
+      await endSession({
+        variables: { sessionId: activeSession?.id },
+        refetchQueries: [
+          {
+            query: ACTIVE_SESSION,
+            variables: { userId },
+          },
+        ],
+      });
     } finally {
       setCompletedSessionId(activeSession?.id ?? null);
     }
   };
 
-  if (!activeSession) {
-    return <Navigate to="/" replace />;
-  }
-
-  const currentWord = activeSession.currentWord;
+  const currentWord = activeSession?.currentWord ?? null;
   const canGuess = !!currentWord && guess.trim().length > 0 && !guessing;
   const hasAnswered = guessResult !== null;
 
   useEffect(() => {
+    if (!activeSession) {
+      return;
+    }
     setGuess('');
     setGuessResult(null);
-  }, [currentWord?.term]);
+  }, [activeSession?.currentWord?.term]);
 
   if (completedSessionId) {
     return (
@@ -177,6 +183,10 @@ function SessionContent() {
         />
       </Suspense>
     );
+  }
+
+  if (!activeSession) {
+    return <Navigate to="/" replace />;
   }
 
   if (remainingSeconds <= 0) {
@@ -305,7 +315,6 @@ type SessionCompleteProps = {
 function SessionComplete({ sessionId, onDone }: SessionCompleteProps) {
   const { data } = useSuspenseQuery<SessionScoreResult>(SESSION_SCORE, {
     variables: { sessionId },
-    fetchPolicy: 'network-only',
   });
 
   return (

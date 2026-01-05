@@ -1,7 +1,7 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import { Role, User } from './user.entity';
 import { DataSource } from 'typeorm';
 import { CreateUserDto } from './create-user.dto';
 import * as argon2 from 'argon2';
@@ -54,5 +54,12 @@ export class UserService {
 
   async findOneByName(name: string): Promise<User | null> {
     return this.usersRepository.findOneBy({ name });
+  }
+
+  async findStudents(): Promise<User[]> {
+    return this.usersRepository.find({
+      where: { role: Role.STUDENT },
+      order: { name: 'ASC' },
+    });
   }
 }

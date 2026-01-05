@@ -11,6 +11,7 @@ type Query {
   sessionDifficulties: [Difficulty!]!
   activeSession(userId: Int!): ActiveSession
   sessionScore(sessionId: Int!): Int!
+  studentProgress(userId: Int!): StudentProgress!
 }
 
 type Mutation {
@@ -48,6 +49,22 @@ type Word {
   definition: String!
   example: String!
   difficulty: Difficulty!
+}
+
+type DifficultyScore {
+  difficulty: Difficulty!
+  score: Int!
+}
+
+type WordStat {
+  term: String!
+  count: Int!
+}
+
+type StudentProgress {
+  difficultyScores: [DifficultyScore!]!
+  topCorrectWords: [WordStat!]!
+  topIncorrectWords: [WordStat!]!
 }
 
 type GuessResult {
