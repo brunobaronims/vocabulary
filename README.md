@@ -24,6 +24,7 @@ Antes de rodar qualquer serviço, renomeie cada `.env.example` para `.env`. Os `
 - Use `docker-compose up -d --build` na raiz do projeto para subir todos os serviços em container.
 - Dentro da pasta back, `npm ci`, `npm run migration:run`
 
+---
 
 - Para acessar no navegador, navegue para http://localhost:{FRONTEND_PORT}, de acordo com a porta definida no .env.
 - O usuário padrão é `admin`, com senha `admin`.
