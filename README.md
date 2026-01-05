@@ -11,10 +11,12 @@ Antes de rodar qualquer serviço, renomeie cada `.env.example` para `.env`. Os `
 - Inicie uma instância do Postgres de sua maneira preferida (`docker compose up postgres -d`).
 
 ## Backend
+- `npm ci`
 - `npm run migration:run`
 - `npm run start:dev`
 
 ## Frontend
+- `npm ci`
 - `npm run dev`
 
 ### Container 
