@@ -29,3 +29,20 @@ export const getRoleFromToken = (token: string | null): UserRole | null => {
     return null;
   }
 };
+
+export const getUserIdFromToken = (token: string | null): number | null => {
+  if (!token) {
+    return null;
+  }
+  const payload = token.split('.')[1];
+  if (!payload) {
+    return null;
+  }
+  try {
+    const decoded = decodeBase64Url(payload);
+    const data = JSON.parse(decoded) as AccessTokenPayload;
+    return typeof data.sub === 'number' ? data.sub : null;
+  } catch {
+    return null;
+  }
+};

@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UserModule } from './user/user.module';
+import { SessionModule } from './session/session.module';
 import { DataSource } from 'typeorm';
 import { join } from 'path';
 
@@ -40,6 +41,7 @@ import { join } from 'path';
       },
     }),
     UserModule,
+    SessionModule,
   ],
 })
 export class AppModule {

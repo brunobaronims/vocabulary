@@ -1,0 +1,30 @@
+enum Difficulty {
+  A1
+  A2
+  B1
+  B2
+  C1
+  C2
+}
+
+type Query {
+  sessionDifficulties: [Difficulty!]!
+}
+
+type Mutation {
+  createSession(input: CreateSessionInput!): Session!
+}
+
+input CreateSessionInput {
+  userId: Int!
+  durationMinutes: Int!
+  difficulty: Difficulty!
+}
+
+type Session {
+  id: Int!
+  userId: Int!
+  createdAt: String!
+  endsAt: String!
+  difficulty: Difficulty!
+}

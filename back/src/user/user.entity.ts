@@ -11,15 +11,15 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
-  @Column()
+  @Column({ name: 'display_name' })
   displayName: string;
 
   @Column()
   password: string;
 
-  @Column()
+  @Column({ type: 'enum', enum: Role })
   role: Role;
 }
