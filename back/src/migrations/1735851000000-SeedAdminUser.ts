@@ -7,7 +7,7 @@ export class SeedAdminUser1735851000000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     const passwordHash = await argon2.hash('admin');
     await queryRunner.query(
-      'INSERT INTO "user" ("name", "displayName", "password", "role") VALUES ($1, $2, $3, $4) ON CONFLICT ("name") DO NOTHING',
+      'INSERT INTO "user" ("name", "display_name", "password", "role") VALUES ($1, $2, $3, $4) ON CONFLICT ("name") DO NOTHING',
       ['admin', 'Admin', passwordHash, 'ADMIN'],
     );
   }
