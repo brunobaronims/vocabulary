@@ -4,7 +4,7 @@ Aplicação que permite praticar vocabulário em inglês, com gerenciamento de s
 
 ## Como rodar
 
-Antes de rodar qualquer serviço, renomeie cada `.env.example` para `.env`. Os `.env` em `back` e `front` são necessários apenas para rodar os apps localmente, para facilitar mudanças no código.
+Antes de rodar qualquer serviço, renomeie cada `.env.example` para `.env`.
 
 ### Local 
 
