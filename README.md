@@ -18,4 +18,7 @@ Antes de rodar qualquer serviço, renomeie cada `.env.example` para `.env`. Os `
 
 ### Container 
 
-- Use `docker-compose up -d` na raiz do projeto para subir todos os serviços em container.
+- Use `docker-compose up -d --build` na raiz do projeto para subir todos os serviços em container.
+
+
+- Para acessar no navegador, navegue para http://localhost:{FRONTEND_PORT}, de acordo com a porta definida no .env.
