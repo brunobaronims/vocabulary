@@ -169,7 +169,7 @@ function Register() {
   return (
     <div className="flex items-center justify-center h-full w-full">
       <div className="flex flex-col items-center h-full w-full sm:w-120 sm:h-fit shadow-lg rounded-md sm:border border-stone-400/50">
-        <div className="h-full w-full px-10 pb-10 flex flex-col justify-center items-center">
+        <div className="h-full w-full px-6 pb-6 flex flex-col justify-center items-center">
           <div className="w-full pt-6">
             <Link
               to="/"

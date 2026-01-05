@@ -93,8 +93,8 @@ function Login() {
     <main className="w-screen h-screen flex flex-col items-center pt-10">
       <img src={logo} alt="Edify" className="w-40 h-auto sm:mb-10" />
       <div className="flex items-center justify-center h-full w-full">
-        <div className="flex flex-col items-center h-full w-full sm:w-120 sm:h-fit py-10 md:w-160 shadow-lg rounded-md sm:border border-stone-400/50">
-          <div className="h-full w-full px-10 flex flex-col justify-center items-center">
+        <div className="flex flex-col items-center h-full w-full sm:w-120 sm:h-fit py-6 md:w-160 shadow-lg rounded-md sm:border border-stone-400/50">
+          <div className="h-full w-full px-6 flex flex-col justify-center items-center">
             <h1 className="font-bold text-xl sm:text-2xl mb-10">
               Vocabulary Learning Tracker
             </h1>

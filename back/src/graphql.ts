@@ -44,11 +44,19 @@ export class LoginInput {
 export abstract class IQuery {
     abstract sessionDifficulties(): Difficulty[] | Promise<Difficulty[]>;
 
+    abstract activeSession(userId: number): Nullable<ActiveSession> | Promise<Nullable<ActiveSession>>;
+
+    abstract sessionScore(sessionId: number): number | Promise<number>;
+
     abstract user(id: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export abstract class IMutation {
     abstract createSession(input: CreateSessionInput): Session | Promise<Session>;
+
+    abstract endSession(sessionId: number): boolean | Promise<boolean>;
+
+    abstract guessWord(sessionId: number, guess: string): GuessResult | Promise<GuessResult>;
 
     abstract createUser(createUserInput?: Nullable<CreateUserInput>): Nullable<User> | Promise<Nullable<User>>;
 
@@ -65,6 +73,28 @@ export class Session {
     createdAt: string;
     endsAt: string;
     difficulty: Difficulty;
+}
+
+export class ActiveSession {
+    id: number;
+    userId: number;
+    createdAt: string;
+    endsAt: string;
+    difficulty: Difficulty;
+    remainingSeconds: number;
+    currentWord?: Nullable<Word>;
+}
+
+export class Word {
+    term: string;
+    definition: string;
+    example: string;
+    difficulty: Difficulty;
+}
+
+export class GuessResult {
+    correct: boolean;
+    term: string;
 }
 
 export class User {

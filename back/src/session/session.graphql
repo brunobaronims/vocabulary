@@ -9,10 +9,14 @@ enum Difficulty {
 
 type Query {
   sessionDifficulties: [Difficulty!]!
+  activeSession(userId: Int!): ActiveSession
+  sessionScore(sessionId: Int!): Int!
 }
 
 type Mutation {
   createSession(input: CreateSessionInput!): Session!
+  endSession(sessionId: Int!): Boolean!
+  guessWord(sessionId: Int!, guess: String!): GuessResult!
 }
 
 input CreateSessionInput {
@@ -27,4 +31,26 @@ type Session {
   createdAt: String!
   endsAt: String!
   difficulty: Difficulty!
+}
+
+type ActiveSession {
+  id: Int!
+  userId: Int!
+  createdAt: String!
+  endsAt: String!
+  difficulty: Difficulty!
+  remainingSeconds: Int!
+  currentWord: Word
+}
+
+type Word {
+  term: String!
+  definition: String!
+  example: String!
+  difficulty: Difficulty!
+}
+
+type GuessResult {
+  correct: Boolean!
+  term: String!
 }
