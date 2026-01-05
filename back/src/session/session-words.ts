@@ -125,7 +125,7 @@ export const SESSION_WORDS: SessionWord[] = [
   {
     term: 'practice',
     definition: 'to do something often to get better at it',
-    example: 'She ????s the piano every day.',
+    example: 'She will ???? the piano every day.',
     difficulty: SessionDifficulty.A2,
   },
   {

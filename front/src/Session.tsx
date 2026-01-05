@@ -117,15 +117,21 @@ function SessionContent() {
   }, [activeSession?.remainingSeconds]);
 
   useEffect(() => {
-    if (!activeSession) {
+    if (!activeSession || completedSessionId) {
       return;
     }
-    if (remainingSeconds > 0 || completedSessionId) {
+    if (remainingSeconds > 0 && activeSession.currentWord) {
       return;
     }
     setCompletedSessionId(activeSession.id);
     endSession({ variables: { sessionId: activeSession.id } }).catch(() => null);
-  }, [activeSession?.id, completedSessionId, endSession, remainingSeconds]);
+  }, [
+    activeSession?.id,
+    activeSession?.currentWord,
+    completedSessionId,
+    endSession,
+    remainingSeconds,
+  ]);
 
   useEffect(() => {
     if (!activeSession) {
@@ -179,7 +185,10 @@ function SessionContent() {
       <Suspense fallback={<SessionCompleteFallback />}>
         <SessionComplete
           sessionId={completedSessionId}
-          onDone={() => navigate('/')}
+          onDone={async () => {
+            await refetch();
+            navigate('/');
+          }}
         />
       </Suspense>
     );
